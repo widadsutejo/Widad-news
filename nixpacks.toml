@@ -1,0 +1,6 @@
+# nixpacks.toml
+
+[php]
+extensions = [
+    "intl"
+]
