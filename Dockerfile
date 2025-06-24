@@ -1,22 +1,23 @@
 # Gunakan image PHP 8.3 dengan FPM
 FROM php:8.3-fpm
 
-# Install ekstensi Laravel & alat bantu
+# Install ekstensi Laravel, Intl, dan alat bantu lainnya
 RUN apt-get update && apt-get install -y \
     git unzip curl libpng-dev libonig-dev libxml2-dev zip \
-    libzip-dev libpq-dev libcurl4-openssl-dev npm nodejs \
-    && docker-php-ext-install pdo pdo_mysql zip
+    libzip-dev libpq-dev libcurl4-openssl-dev libicu-dev \
+    nodejs npm \
+    && docker-php-ext-install intl pdo pdo_mysql zip
 
 # Install Composer dari image resmi
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Atur direktori kerja
+# Atur direktori kerja di dalam container
 WORKDIR /var/www/html
 
-# Salin semua file ke dalam container
+# Salin semua file dari host ke dalam container
 COPY . .
 
-# Jalankan perintah build Laravel
+# Install dependency Laravel dan build frontend
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
 
