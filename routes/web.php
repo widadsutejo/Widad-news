@@ -11,3 +11,15 @@ Route::get('/{slug}', [NewsController::class, 'category'])->name('news.category'
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 
 Route::get('/author/{username}', [AuthorController::class, 'show'])->name('author.show');
+
+Route::get('/debug', function () {
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Server is running!',
+        'php_version' => PHP_VERSION,
+        'laravel_version' => app()->version(),
+        'environment' => app()->environment(),
+        'app_url' => config('app.url')
+    ]);
+});
+
