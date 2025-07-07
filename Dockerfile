@@ -18,9 +18,8 @@ WORKDIR /var/www/html
 COPY . .
 
 # Install dependency Laravel dan build frontend
-RUN php artisan storage:link
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
 
-# Jalankan Laravel menggunakan built-in server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Jalankan Laravel dengan storage:link dulu
+CMD php artisan storage:link && php artisan serve --host=0.0.0.0 --port=8000
