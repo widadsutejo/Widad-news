@@ -18,6 +18,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Install dependency Laravel dan build frontend
+RUN php artisan storage:link
 RUN composer install --no-dev --optimize-autoloader
 RUN npm install && npm run build
 
